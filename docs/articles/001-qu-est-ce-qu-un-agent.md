@@ -1,0 +1,169 @@
+# Qu'est-ce qu'un agent, vraiment ?
+
+Le mot « agent » est partout, et la plupart du temps il ne veut rien dire. Cet article
+donne une définition qui tient debout, et la prouve avec le plus petit agent possible.
+
+## Le concept
+
+Un **LLM tout seul** est une fonction : du texte entre, du texte sort. Une fois. Sans
+mémoire, sans action, sans état. Un **chatbot** n'est rien de plus que ça, enrobé d'une
+boucle de conversation.
+
+Un **agent**, c'est ce qui se passe quand on donne au LLM trois choses qu'il n'a pas
+nativement :
+
+| Ingrédient | Ce que ça change |
+|------------|------------------|
+| **Une boucle** | Le modèle ne répond plus une fois : il enchaîne des étapes jusqu'à un objectif |
+| **Des outils** | Il peut agir sur le monde (lire l'heure, lancer un script, interroger une API) au lieu de seulement générer du texte |
+| **De la mémoire** | Il garde le fil entre chaque tour (contexte, résultats intermédiaires) |
+
+La différence cruciale : un chatbot **attend** ta question. Un agent est **lancé avec un
+but** et itère tout seul, en décidant à chaque tour s'il a besoin d'un outil ou s'il peut
+conclure.
+
+## Use case : le plus petit agent possible
+
+Le cas le plus parlant est celui où le modèle **ne peut pas répondre sans outil**. Un LLM
+a des données d'entraînement figées : il ne sait pas l'heure qu'il est. Si je lui demande
+« quelle heure est-il à Tokyo ? », il n'a que deux options : inventer, ou appeler un outil.
+
+On va donc construire un agent avec **un seul outil** (`get_current_time`), et lui poser :
+
+> Quelle heure est-il à Tokyo ? Et à Paris ?
+
+Le but n'est pas la réponse — c'est de **voir la boucle tourner**.
+
+## Architecture
+
+```mermaid
+flowchart TD
+    A[Question utilisateur] --> B{Le modèle a-t-il besoin d'un outil ?}
+    B -- oui --> C[Appel de l'outil]
+    C --> D[Résultat de l'outil, réinjecté dans l'historique]
+    D --> B
+    B -- non --> E[Réponse finale]
+```
+
+Trois blocs, rien d'autre : **l'appel au modèle**, **l'exécution de l'outil**, et **la
+boucle** qui relie les deux. Tout agent, du micro-script ci-dessous jusqu'aux
+orchestrateurs multi-agents, n'est qu'une variation sur ce schéma.
+
+## Le code
+
+Voici l'agent complet (~100 lignes, zéro dépendance hors stdlib). Le fichier source est
+dans le repo : [`scripts/mini_agent.py`](https://github.com/cedzer0/agente/blob/main/scripts/mini_agent.py).
+
+```python
+#!/usr/bin/env python3
+"""Mini-agent minimal : un LLM + un outil + une boucle."""
+import json
+import os
+import urllib.request
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
+# --- 1. L'outil ----------------------------------------------------------
+def get_current_time(timezone: str) -> str:
+    """Renvoie l'heure actuelle dans le fuseau horaire demandé (ex: Europe/Paris)."""
+    return datetime.now(ZoneInfo(timezone)).strftime("%H:%M:%S (%A)")
+
+TOOLS = {
+    "get_current_time": {
+        "description": "Renvoie l'heure actuelle dans un fuseau horaire (ex: 'Europe/Paris', 'Asia/Tokyo').",
+        "call": get_current_time,
+    }
+}
+
+# --- 2. L'appel au modèle ------------------------------------------------
+def call_model(messages: list) -> dict:
+    """Appelle un LLM compatible OpenAI et renvoie son message de réponse."""
+    req = urllib.request.Request(
+        f"{BASE_URL}/chat/completions",
+        data=json.dumps({
+            "model": MODEL,
+            "messages": messages,
+            "tools": [{
+                "type": "function",
+                "function": {
+                    "name": name,
+                    "description": t["description"],
+                    "parameters": {
+                        "type": "object",
+                        "properties": {"timezone": {"type": "string"}},
+                    },
+                },
+            } for name, t in TOOLS.items()],
+            "tool_choice": "auto",
+        }).encode(),
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {API_KEY}",
+        },
+    )
+    with urllib.request.urlopen(req) as r:
+        return json.loads(r.read())
+
+# --- 3. La boucle --------------------------------------------------------
+def run(question: str, max_turns: int = 6) -> None:
+    messages = [{"role": "user", "content": question}]
+    for turn in range(1, max_turns + 1):
+        resp = call_model(messages)["choices"][0]["message"]
+        messages.append(resp)  # on garde tout l'historique
+
+        if resp.get("tool_calls"):
+            for tc in resp["tool_calls"]:
+                name = tc["function"]["name"]
+                args = json.loads(tc["function"]["arguments"])
+                print(f"[tour {turn}] le modèle appelle l'outil {name}({args})")
+                result = TOOLS[name]["call"](**args)
+                messages.append({"role": "tool", "tool_call_id": tc["id"], "content": result})
+                print(f"[tour {turn}] résultat de l'outil : {result}")
+        else:
+            print(f"[tour {turn}] réponse finale : {resp['content']}")
+            break
+
+if __name__ == "__main__":
+    BASE_URL = os.environ["LLM_BASE_URL"]
+    API_KEY = os.environ["LLM_API_KEY"]
+    MODEL = os.environ.get("LLM_MODEL", "deepseek/deepseek-v4-pro")
+    run("Quelle heure est-il à Tokyo ? Et à Paris ?")
+```
+
+Trois choses à remarquer :
+
+1. **L'outil est décrit en texte** (`"description"`) — c'est comme ça que le modèle *sait*
+   qu'il existe et quand s'en servir.
+2. **L'historique est conservé** (`messages.append`) — chaque résultat d'outil est réinjecté
+   dans le contexte du tour suivant. C'est la mémoire.
+3. **Le modèle décide** (`tool_choice: "auto"`) — on ne lui impose pas d'appeler l'outil,
+   il choisit à chaque tour entre « appeler » et « conclure ».
+
+## Résultats
+
+Exécution réelle, avec `deepseek-v4-pro` :
+
+```text
+[tour 1] le modèle appelle l'outil get_current_time({'timezone': 'Asia/Tokyo'})
+[tour 1] résultat de l'outil : 05:32:08 (Tuesday)
+[tour 1] le modèle appelle l'outil get_current_time({'timezone': 'Europe/Paris'})
+[tour 1] résultat de l'outil : 22:32:08 (Monday)
+[tour 2] réponse finale : À Tokyo, il est 05h32 (mardi). À Paris, il est 22h32 (lundi).
+```
+
+Ce qu'il faut lire dans cette trace :
+
+- Le modèle **n'a pas répondu directement** — il a d'abord reconnu qu'il lui manquait une
+  information, et a appelé l'outil. C'est *ça*, un agent.
+- Il a fait **deux appels distincts** (Tokyo, puis Paris), parce que la question contenait
+  deux sous-questions. Personne ne le lui a demandé : la boucle s'est enchaînée seule.
+- Ce n'est qu'au **tour 2**, une fois qu'il avait les deux heures, qu'il a produit la
+  réponse finale.
+
+## Ce qu'il faut retenir
+
+> **Un agent = un LLM + une boucle + des outils + de la mémoire, lancé vers un objectif.**
+
+Un chatbot répond *une fois*. Un agent *agit*, observe le résultat, et recommence jusqu'à
+ce que ce soit fini. Tout le reste — orchestration multi-agents, planification, mémoire à
+long terme — est une extension de cette boucle de base, pas un concept différent.

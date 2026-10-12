@@ -1,0 +1,12 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# MkDocs build output
+site/
+.cache/
+
+# OS / editor
+.DS_Store
+*.swp
