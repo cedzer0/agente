@@ -49,16 +49,28 @@ Le but n'est pas la réponse. C'est de voir la boucle tourner.
 
 ```mermaid
 flowchart TD
-    A[Question utilisateur] --> B{Le modèle a-t-il besoin d'un outil ?}
-    B -- oui --> C[Appel de l'outil]
-    C --> D[Résultat de l'outil, réinjecté dans l'historique]
-    D --> B
-    B -- non --> E[Réponse finale]
+    Q["« Quelle heure est-il à Tokyo ? »"] --> MEM[("Historique<br/>les messages s'accumulent")]
+    MEM --> LLM{"Le modèle décide :<br/>je peux conclure,<br/>ou il me manque une info ?"}
+    LLM -->|"il me manque une info"| TC["Tool call<br/>get_current_time('Asia/Tokyo')"]
+    TC --> EXEC["Le code exécute l'outil"]
+    EXEC --> RES["Résultat : 05:32 (mardi)"]
+    RES --> MEM
+    LLM -->|"j'ai tout ce qu'il faut"| FIN["Réponse finale<br/>« À Tokyo il est 05h32 »"]
+    subgraph BOUCLE["La boucle (répétée à chaque tour)"]
+        LLM
+        TC
+        EXEC
+    end
+    subgraph MONDE["Le monde : les outils"]
+        RES
+    end
 ```
 
-Trois blocs, rien d'autre : l'appel au modèle, l'exécution de l'outil, et la boucle qui
-relie les deux. C'est tout. Tout ce qu'on appelle pompeusement « agent », du micro-script
-ci-dessous jusqu'aux orchestrateurs multi-agents, n'est qu'une variation sur ce schéma.
+Ce schéma, c'est tout. Un historique (la mémoire) qui grossit à chaque tour, un modèle
+qui décide, et des outils qu'il appelle quand il lui manque une info. La boucle, c'est la
+flèche qui repart du résultat vers l'historique : le modèle tourne jusqu'à ce qu'il puisse
+conclure. Tout ce qu'on appelle pompeusement « agent », du micro-script ci-dessous jusqu'aux
+orchestrateurs multi-agents, n'est qu'une variation sur ce schéma.
 
 ## Le code
 
