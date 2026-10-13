@@ -1,20 +1,30 @@
 # Qu'est-ce qu'un agent, vraiment ?
 
-Le mot « agent » est partout, et la plupart du temps il ne veut rien dire. Cet article
-donne une définition qui tient debout, et la prouve avec le plus petit agent possible.
+« Agent IA » est sans doute l'expression la plus galvaudée de 2026. Tout le monde en
+parle, presque personne ne sait ce que ça veut dire. Cet article donne une définition qui
+tient debout — et la prouve avec le plus petit agent possible.
 
 ## Le concept
 
-Un **LLM tout seul** est une fonction : du texte entre, du texte sort. Une fois. Sans
-mémoire, sans action, sans état. Un **chatbot** n'est rien de plus que ça, enrobé d'une
-boucle de conversation.
+Imagine un type extrêmement cultivé, enfermé dans une pièce. Pas de fenêtre, pas de
+montre, pas d'internet. Il sait une quantité de choses hallucinante, mais il ne sait pas
+l'heure qu'il est, ni le temps qu'il fait dehors, ni rien de ce qui se passe au moment où
+tu lui parles.
 
-Un **agent**, c'est ce qui se passe quand on donne au LLM trois choses qu'il n'a pas
-nativement :
+Ce type, c'est un **LLM**.
+
+Un **chatbot**, c'est ce type en train de discuter à travers la porte. Tu lui parles, il
+répond. Une fois. Puis il se tait.
+
+Un **agent**, c'est ce même type à qui on a enfin ouvert la porte, donné une montre, des
+mains, et le droit de se lever pour agir. Il ne se contente plus de répondre de mémoire :
+il consulte ses outils, agit, vérifie, et recommence jusqu'à ce que le boulot soit fait.
+
+Techniquement, on lui a donné trois choses qu'il n'a pas nativement :
 
 | Ingrédient | Ce que ça change |
 |------------|------------------|
-| **Une boucle** | Le modèle ne répond plus une fois : il enchaîne des étapes jusqu'à un objectif |
+| **Une boucle** | Il ne répond plus une fois : il enchaîne des étapes jusqu'à un objectif |
 | **Des outils** | Il peut agir sur le monde (lire l'heure, lancer un script, interroger une API) au lieu de seulement générer du texte |
 | **De la mémoire** | Il garde le fil entre chaque tour (contexte, résultats intermédiaires) |
 
@@ -24,9 +34,10 @@ conclure.
 
 ## Use case : le plus petit agent possible
 
-Le cas le plus parlant est celui où le modèle **ne peut pas répondre sans outil**. Un LLM
-a des données d'entraînement figées : il ne sait pas l'heure qu'il est. Si je lui demande
-« quelle heure est-il à Tokyo ? », il n'a que deux options : inventer, ou appeler un outil.
+Le cas le plus parlant, c'est celui où le modèle **ne peut pas répondre sans outil**. Un
+LLM a des données d'entraînement figées dans le temps : il ne sait pas l'heure qu'il est.
+Si je lui demande « quelle heure est-il à Tokyo ? », il n'a que deux options : inventer,
+ou appeler un outil.
 
 On va donc construire un agent avec **un seul outil** (`get_current_time`), et lui poser :
 
@@ -46,8 +57,9 @@ flowchart TD
 ```
 
 Trois blocs, rien d'autre : **l'appel au modèle**, **l'exécution de l'outil**, et **la
-boucle** qui relie les deux. Tout agent, du micro-script ci-dessous jusqu'aux
-orchestrateurs multi-agents, n'est qu'une variation sur ce schéma.
+boucle** qui relie les deux. C'est tout. Et tout ce qu'on appelle pompeusement « agent »,
+du micro-script ci-dessous jusqu'aux orchestrateurs multi-agents, n'est qu'une variation
+sur ce schéma.
 
 ## Le code
 
@@ -133,7 +145,8 @@ if __name__ == "__main__":
 Trois choses à remarquer :
 
 1. **L'outil est décrit en texte** (`"description"`) — c'est comme ça que le modèle *sait*
-   qu'il existe et quand s'en servir.
+   qu'il existe et quand s'en servir. On ne code pas l'outil « dans » le modèle, on le lui
+   *présente*.
 2. **L'historique est conservé** (`messages.append`) — chaque résultat d'outil est réinjecté
    dans le contexte du tour suivant. C'est la mémoire.
 3. **Le modèle décide** (`tool_choice: "auto"`) — on ne lui impose pas d'appeler l'outil,
@@ -154,7 +167,7 @@ Exécution réelle, avec `deepseek-v4-pro` :
 Ce qu'il faut lire dans cette trace :
 
 - Le modèle **n'a pas répondu directement** — il a d'abord reconnu qu'il lui manquait une
-  information, et a appelé l'outil. C'est *ça*, un agent.
+  information, et il a appelé l'outil. C'est *ça*, un agent.
 - Il a fait **deux appels distincts** (Tokyo, puis Paris), parce que la question contenait
   deux sous-questions. Personne ne le lui a demandé : la boucle s'est enchaînée seule.
 - Ce n'est qu'au **tour 2**, une fois qu'il avait les deux heures, qu'il a produit la
