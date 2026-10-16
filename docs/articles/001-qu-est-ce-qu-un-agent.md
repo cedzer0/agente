@@ -47,24 +47,7 @@ Le but n'est pas la réponse. C'est de voir la boucle tourner.
 
 ## Architecture
 
-```mermaid
-flowchart TD
-    Q["« Quelle heure est-il à Tokyo ? »"] --> MEM[("Historique<br/>les messages s'accumulent")]
-    MEM --> LLM{"Le modèle décide :<br/>je peux conclure,<br/>ou il me manque une info ?"}
-    LLM -->|"il me manque une info"| TC["Tool call<br/>get_current_time('Asia/Tokyo')"]
-    TC --> EXEC["Le code exécute l'outil"]
-    EXEC --> RES["Résultat : 05:32 (mardi)"]
-    RES --> MEM
-    LLM -->|"j'ai tout ce qu'il faut"| FIN["Réponse finale<br/>« À Tokyo il est 05h32 »"]
-    subgraph BOUCLE["La boucle (répétée à chaque tour)"]
-        LLM
-        TC
-        EXEC
-    end
-    subgraph MONDE["Le monde : les outils"]
-        RES
-    end
-```
+![Architecture d'un agent : la question, la mémoire, le cerveau, l'outil et la boucle](../assets/001/architecture.svg)
 
 Ce schéma, c'est tout. Un historique (la mémoire) qui grossit à chaque tour, un modèle
 qui décide, et des outils qu'il appelle quand il lui manque une info. La boucle, c'est la
