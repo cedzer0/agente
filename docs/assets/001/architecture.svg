@@ -1,20 +1,10 @@
 <svg viewBox="0 0 1080 720" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
-    </pattern>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-      <feMerge>
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
     <filter id="shadow">
       <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.3"/>
     </filter>
-    <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L0,6 L9,3 z" fill="#22d3ee"/>
+    <marker id="arrowAmber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#fbbf24"/>
     </marker>
     <marker id="arrowViolet" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
       <path d="M0,0 L0,6 L9,3 z" fill="#a78bfa"/>
@@ -22,83 +12,75 @@
     <marker id="arrowEmerald" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
       <path d="M0,0 L0,6 L9,3 z" fill="#34d399"/>
     </marker>
-    <marker id="arrowAmber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L0,6 L9,3 z" fill="#fbbf24"/>
-    </marker>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+    </pattern>
   </defs>
   
   <rect width="1080" height="720" fill="#0B1120"/>
   <rect width="1080" height="720" fill="url(#grid)"/>
   
-  <text x="540" y="40" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="bold" fill="#ffffff" text-anchor="middle">Comment fonctionne un Agent IA ?</text>
+  <!-- Flèche 1: QUESTION vers CERVEAU -->
+  <path d="M 540,130 L 540,240" stroke="#fbbf24" stroke-width="3" fill="none" marker-end="url(#arrowAmber)"/>
   
+  <!-- Flèche 2: MÉMOIRE vers CERVEAU -->
+  <path d="M 280,350 L 380,350" stroke="#a78bfa" stroke-width="3" fill="none" marker-end="url(#arrowViolet)"/>
+  <text x="330" y="340" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#a78bfa" text-anchor="middle">il lit l'historique</text>
+  
+  <!-- Flèche 3: CERVEAU vers OUTIL -->
+  <path d="M 700,350 L 780,350" stroke="#34d399" stroke-width="3" fill="none" marker-end="url(#arrowEmerald)"/>
+  <text x="740" y="340" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#34d399" text-anchor="middle" font-weight="bold">OUI</text>
+  <text x="740" y="370" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#34d399" text-anchor="middle">il manque une info</text>
+  
+  <!-- Flèche 4: OUTIL vers MÉMOIRE (en L, sous le cerveau) -->
+  <path d="M 890,420 L 890,480 L 280,480" stroke="#34d399" stroke-width="3" fill="none" stroke-dasharray="6,4" marker-end="url(#arrowEmerald)"/>
+  <text x="585" y="495" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#34d399" text-anchor="middle">le résultat revient en mémoire</text>
+  
+  <!-- Flèche 5: CERVEAU vers RÉPONSE -->
+  <path d="M 540,420 L 680,500" stroke="#fbbf24" stroke-width="3" fill="none" marker-end="url(#arrowAmber)"/>
+  <text x="600" y="450" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#fbbf24" text-anchor="middle" font-weight="bold">NON</text>
+  <text x="600" y="465" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#fbbf24" text-anchor="middle">j'ai tout</text>
+  
+  <!-- QUESTION -->
   <rect x="380" y="70" width="320" height="60" rx="10" fill="#fbbf24" fill-opacity="0.15" stroke="#fbbf24" stroke-width="2" filter="url(#shadow)"/>
-  <text x="540" y="95" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="bold" fill="#fbbf24" text-anchor="middle">QUESTION</text>
-  <text x="540" y="115" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="16" fill="#fbbf24" text-anchor="middle">« Quelle heure est-il à Tokyo ? »</text>
+  <text x="540" y="95" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#fbbf24" text-anchor="middle" font-weight="bold">QUESTION</text>
+  <text x="540" y="115" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#fbbf24" text-anchor="middle">« Quelle heure est-il à Tokyo ? »</text>
   
-  <path d="M 540 130 L 540 170" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrowAmber)"/>
-  
-  <rect x="80" y="180" width="200" height="380" rx="10" fill="#a78bfa" fill-opacity="0.15" stroke="#a78bfa" stroke-width="2" filter="url(#shadow)"/>
-  <text x="180" y="210" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="bold" fill="#a78bfa" text-anchor="middle">MÉMOIRE</text>
-  <text x="180" y="230" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" fill="#a78bfa" text-anchor="middle">Historique</text>
-  
-  <rect x="100" y="250" width="160" height="50" rx="6" fill="#1e293b" stroke="#a78bfa" stroke-width="1.5"/>
-  <text x="180" y="270" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11" fill="#a78bfa" text-anchor="middle">Question:</text>
-  <text x="180" y="287" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" fill="#d8b4fe" text-anchor="middle">Quelle heure à Tokyo?</text>
-  
-  <rect x="100" y="310" width="160" height="50" rx="6" fill="#1e293b" stroke="#a78bfa" stroke-width="1.5"/>
-  <text x="180" y="330" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11" fill="#a78bfa" text-anchor="middle">Action:</text>
-  <text x="180" y="347" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" fill="#d8b4fe" text-anchor="middle">Appeler get_current_time</text>
-  
-  <rect x="100" y="370" width="160" height="50" rx="6" fill="#1e293b" stroke="#a78bfa" stroke-width="1.5"/>
-  <text x="180" y="390" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11" fill="#a78bfa" text-anchor="middle">Résultat:</text>
-  <text x="180" y="407" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" fill="#d8b4fe" text-anchor="middle">05:32</text>
-  
-  <rect x="100" y="430" width="160" height="50" rx="6" fill="#1e293b" stroke="#a78bfa" stroke-width="1.5"/>
-  <text x="180" y="450" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11" fill="#a78bfa" text-anchor="middle">Réponse finale:</text>
-  <text x="180" y="467" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" fill="#d8b4fe" text-anchor="middle">À Tokyo il est 05h32</text>
-  
-  <path d="M 540 170 L 280 240" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrowViolet)"/>
-  
+  <!-- CERVEAU -->
   <rect x="380" y="240" width="320" height="180" rx="10" fill="#22d3ee" fill-opacity="0.15" stroke="#22d3ee" stroke-width="2" filter="url(#shadow)"/>
-  <text x="540" y="270" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="bold" fill="#22d3ee" text-anchor="middle">CERVEAU</text>
-  <text x="540" y="290" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" fill="#22d3ee" text-anchor="middle">Modèle de langage</text>
+  <text x="540" y="270" font-family="'Segoe UI', Arial, sans-serif" font-size="18" fill="#22d3ee" text-anchor="middle" font-weight="bold">🧠 CERVEAU</text>
+  <text x="540" y="295" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#22d3ee" text-anchor="middle">(Agent IA)</text>
+  <text x="540" y="330" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#e2e8f0" text-anchor="middle">Point de décision :</text>
+  <text x="540" y="350" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#22d3ee" text-anchor="middle" font-weight="bold">« Il me manque une info ? »</text>
+  <text x="540" y="380" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">Je réfléchis et je décide</text>
+  <text x="540" y="400" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">si j'ai besoin d'un outil</text>
   
-  <ellipse cx="540" cy="350" rx="80" ry="40" fill="#1e293b" stroke="#22d3ee" stroke-width="1.5"/>
-  <text x="540" y="345" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="bold" fill="#22d3ee" text-anchor="middle">Il me manque</text>
-  <text x="540" y="362" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="bold" fill="#22d3ee" text-anchor="middle">une info ?</text>
+  <!-- MÉMOIRE -->
+  <rect x="80" y="180" width="200" height="380" rx="10" fill="#a78bfa" fill-opacity="0.15" stroke="#a78bfa" stroke-width="2" filter="url(#shadow)"/>
+  <text x="180" y="210" font-family="'Segoe UI', Arial, sans-serif" font-size="18" fill="#a78bfa" text-anchor="middle" font-weight="bold">💾 MÉMOIRE</text>
+  <text x="180" y="235" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#a78bfa" text-anchor="middle">(Historique)</text>
+  <text x="180" y="270" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#e2e8f0" text-anchor="middle">Tout ce qui s'est passé :</text>
+  <text x="180" y="295" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#cbd5e1" text-anchor="middle">• La question posée</text>
+  <text x="180" y="315" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#cbd5e1" text-anchor="middle">• Les décisions prises</text>
+  <text x="180" y="335" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#cbd5e1" text-anchor="middle">• Les outils utilisés</text>
+  <text x="180" y="355" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#cbd5e1" text-anchor="middle">• Les résultats obtenus</text>
+  <text x="180" y="390" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#a78bfa" text-anchor="middle" font-weight="bold">L'agent relit</text>
+  <text x="180" y="410" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#a78bfa" text-anchor="middle" font-weight="bold">constamment</text>
+  <text x="180" y="430" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#a78bfa" text-anchor="middle" font-weight="bold">cette mémoire</text>
+  <text x="180" y="460" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">pour savoir quoi faire</text>
+  <text x="180" y="480" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">ensuite</text>
   
-  <text x="470" y="350" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="bold" fill="#34d399" text-anchor="end">OUI</text>
-  <text x="610" y="350" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="bold" fill="#fbbf24" text-anchor="start">NON</text>
-  
-  <path d="M 460 350 L 320 350" stroke="#34d399" stroke-width="2" marker-end="url(#arrowEmerald)"/>
-  
+  <!-- OUTIL -->
   <rect x="780" y="280" width="220" height="140" rx="10" fill="#34d399" fill-opacity="0.15" stroke="#34d399" stroke-width="2" filter="url(#shadow)"/>
-  <text x="890" y="310" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="bold" fill="#34d399" text-anchor="middle">OUTIL</text>
-  <text x="890" y="330" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" fill="#34d399" text-anchor="middle">Monde extérieur</text>
+  <text x="890" y="310" font-family="'Segoe UI', Arial, sans-serif" font-size="18" fill="#34d399" text-anchor="middle" font-weight="bold">🔧 OUTIL</text>
+  <text x="890" y="335" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#e2e8f0" text-anchor="middle">Fonction :</text>
+  <text x="890" y="355" font-family="'Segoe UI', Arial, sans-serif" font-size="13" fill="#34d399" text-anchor="middle" font-weight="bold">get_current_time</text>
+  <text x="890" y="375" font-family="'Segoe UI', Arial, sans-serif" font-size="12" fill="#cbd5e1" text-anchor="middle">(ville: "Tokyo")</text>
+  <text x="890" y="400" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#34d399" text-anchor="middle" font-weight="bold">→ 05:32</text>
   
-  <rect x="800" y="350" width="180" height="50" rx="8" fill="#1e293b" stroke="#34d399" stroke-width="1.5"/>
-  <text x="890" y="370" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="bold" fill="#34d399" text-anchor="middle">get_current_time</text>
-  <text x="890" y="390" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" fill="#6ee7b7" text-anchor="middle">→ 05:32</text>
-  
-  <path d="M 700 350 L 780 350" stroke="#34d399" stroke-width="2" marker-end="url(#arrowEmerald)"/>
-  
-  <path d="M 890 280 L 890 240 L 280 240 L 280 300" stroke="#34d399" stroke-width="2.5" marker-end="url(#arrowEmerald)" fill="none" stroke-dasharray="5,5"/>
-  <text x="580" y="230" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="bold" fill="#34d399" text-anchor="middle">BOUCLE : retour en mémoire</text>
-  
-  <path d="M 620 350 L 720 500" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrowAmber)"/>
-  
+  <!-- RÉPONSE -->
   <rect x="580" y="500" width="280" height="80" rx="10" fill="#fbbf24" fill-opacity="0.15" stroke="#fbbf24" stroke-width="2" filter="url(#shadow)"/>
-  <text x="720" y="525" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="bold" fill="#fbbf24" text-anchor="middle">RÉPONSE</text>
-  <text x="720" y="555" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="16" fill="#fbbf24" text-anchor="middle">« À Tokyo il est 05h32 »</text>
-  
-  <rect x="80" y="620" width="920" height="80" rx="8" fill="#1e293b" fill-opacity="0.5" stroke="#475569" stroke-width="1"/>
-  <text x="540" y="645" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="bold" fill="#94a3b8" text-anchor="middle">💡 Les 2 secrets de l'Agent IA</text>
-  <text x="300" y="670" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" fill="#cbd5e1" text-anchor="middle">🔁 LA BOUCLE : le cerveau tourne jusqu'à avoir la réponse</text>
-  <text x="780" y="670" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" fill="#cbd5e1" text-anchor="middle">📚 LA MÉMOIRE : tout s'accumule pour décider</text>
-  
-  <circle cx="180" cy="520" r="25" fill="#a78bfa" fill-opacity="0.3" stroke="#a78bfa" stroke-width="2"/>
-  <text x="180" y="530" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="20" fill="#a78bfa" text-anchor="middle">↓</text>
-  <text x="180" y="555" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" fill="#a78bfa" text-anchor="middle">Pile qui</text>
-  <text x="180" y="568" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" fill="#a78bfa" text-anchor="middle">grossit</text>
+  <text x="720" y="525" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#fbbf24" text-anchor="middle" font-weight="bold">RÉPONSE FINALE</text>
+  <text x="720" y="550" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#fbbf24" text-anchor="middle">« À Tokyo il est 05h32 »</text>
+  <text x="720" y="570" font-family="'Segoe UI', Arial, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">✓ Mission accomplie !</text>
 </svg>
