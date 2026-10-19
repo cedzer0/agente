@@ -1,0 +1,81 @@
+<svg viewBox="0 0 1080 720" xmlns="http://www.w3.org/2000/svg">
+  <!-- Définitions -->
+  <defs>
+    <!-- Ombres -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.3"/>
+    </filter>
+    <!-- Marqueurs de flèches -->
+    <marker id="arrowAmber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arrowViolet" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#a78bfa"/>
+    </marker>
+    <marker id="arrowEmerald" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#34d399"/>
+    </marker>
+  </defs>
+  
+  <!-- Fond -->
+  <rect width="1080" height="720" fill="#0B1120"/>
+  
+  <!-- Grille subtile -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+  </pattern>
+  <rect width="1080" height="720" fill="url(#grid)"/>
+  
+  <!-- Flèche 1: ORCHESTRATEUR → RÉDACTEUR -->
+  <path d="M 540 110 L 540 160 L 410 160 L 410 240" fill="none" stroke="#fbbf24" stroke-width="3" marker-end="url(#arrowAmber)"/>
+  <text x="470" y="150" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="14" font-weight="600">écris le README</text>
+  
+  <!-- Flèche 2: ORCHESTRATEUR → CRITIQUE -->
+  <path d="M 540 110 L 540 160 L 670 160 L 670 240" fill="none" stroke="#fbbf24" stroke-width="3" marker-end="url(#arrowAmber)"/>
+  <text x="600" y="150" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="14" font-weight="600">relis-le</text>
+  
+  <!-- Flèche 3: RÉDACTEUR → RÉSULTAT -->
+  <path d="M 410 360 L 410 440 L 480 440 L 480 520" fill="none" stroke="#22d3ee" stroke-width="3" marker-end="url(#arrowCyan)"/>
+  <text x="420" y="435" fill="#22d3ee" font-family="system-ui, sans-serif" font-size="14" font-weight="600">brouillon</text>
+  
+  <!-- Flèche 4: CRITIQUE → RÉSULTAT -->
+  <path d="M 670 360 L 670 440 L 620 440 L 620 520" fill="none" stroke="#a78bfa" stroke-width="3" marker-end="url(#arrowViolet)"/>
+  <text x="630" y="435" fill="#a78bfa" font-family="system-ui, sans-serif" font-size="14" font-weight="600">corrections</text>
+  
+  <!-- Flèche 5: RÉSULTAT → RÉDACTEUR (boucle) -->
+  <path d="M 430 565 L 250 565 L 250 300 L 300 300" fill="none" stroke="#34d399" stroke-width="3" stroke-dasharray="8,4" marker-end="url(#arrowEmerald)"/>
+  <ellipse cx="200" cy="565" rx="80" ry="30" fill="#0B1120" stroke="#34d399" stroke-width="2"/>
+  <text x="200" y="562" fill="#34d399" font-family="system-ui, sans-serif" font-size="12" font-weight="600" text-anchor="middle">encore des</text>
+  <text x="200" y="577" fill="#34d399" font-family="system-ui, sans-serif" font-size="12" font-weight="600" text-anchor="middle">erreurs ?</text>
+  <text x="140" y="380" fill="#34d399" font-family="system-ui, sans-serif" font-size="13" font-weight="600">la boucle :</text>
+  <text x="140" y="398" fill="#34d399" font-family="system-ui, sans-serif" font-size="13" font-weight="600">corriger puis</text>
+  <text x="140" y="416" fill="#34d399" font-family="system-ui, sans-serif" font-size="13" font-weight="600">re-relire</text>
+  
+  <!-- ORCHESTRATEUR -->
+  <rect x="460" y="40" width="160" height="70" rx="10" fill="#fbbf24" fill-opacity="0.15" stroke="#fbbf24" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="540" y="70" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="16" font-weight="700" text-anchor="middle">MOI</text>
+  <text x="540" y="92" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="14" font-weight="500" text-anchor="middle">(orchestre)</text>
+  
+  <!-- RÉDACTEUR -->
+  <rect x="300" y="240" width="220" height="120" rx="10" fill="#22d3ee" fill-opacity="0.15" stroke="#22d3ee" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="410" y="285" fill="#22d3ee" font-family="system-ui, sans-serif" font-size="17" font-weight="700" text-anchor="middle">AGENT</text>
+  <text x="410" y="307" fill="#22d3ee" font-family="system-ui, sans-serif" font-size="17" font-weight="700" text-anchor="middle">RÉDACTEUR</text>
+  <text x="410" y="335" fill="#22d3ee" font-family="system-ui, sans-serif" font-size="14" font-weight="500" text-anchor="middle">il écrit le</text>
+  <text x="410" y="352" fill="#22d3ee" font-family="system-ui, sans-serif" font-size="14" font-weight="500" text-anchor="middle">brouillon</text>
+  
+  <!-- CRITIQUE -->
+  <rect x="560" y="240" width="220" height="120" rx="10" fill="#a78bfa" fill-opacity="0.15" stroke="#a78bfa" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="670" y="285" fill="#a78bfa" font-family="system-ui, sans-serif" font-size="17" font-weight="700" text-anchor="middle">AGENT</text>
+  <text x="670" y="307" fill="#a78bfa" font-family="system-ui, sans-serif" font-size="17" font-weight="700" text-anchor="middle">CRITIQUE</text>
+  <text x="670" y="335" fill="#a78bfa" font-family="system-ui, sans-serif" font-size="14" font-weight="500" text-anchor="middle">il relit et</text>
+  <text x="670" y="352" fill="#a78bfa" font-family="system-ui, sans-serif" font-size="14" font-weight="500" text-anchor="middle">dit non</text>
+  
+  <!-- RÉSULTAT -->
+  <rect x="430" y="520" width="220" height="90" rx="10" fill="#34d399" fill-opacity="0.15" stroke="#34d399" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="540" y="555" fill="#34d399" font-family="system-ui, sans-serif" font-size="17" font-weight="700" text-anchor="middle">RÉSULTAT FINAL</text>
+  <text x="540" y="582" fill="#34d399" font-family="system-ui, sans-serif" font-size="14" font-weight="500" text-anchor="middle">validé après</text>
+  <text x="540" y="599" fill="#34d399" font-family="system-ui, sans-serif" font-size="14" font-weight="500" text-anchor="middle">relecture</text>
+</svg>

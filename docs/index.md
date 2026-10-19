@@ -13,6 +13,7 @@ pas compris et validé ce qu'il raconte.
 | # | Titre | Sujet |
 |---|-------|-------|
 | 001 | [Qu'est-ce qu'un agent, vraiment ?](articles/001-qu-est-ce-qu-un-agent.md) | Le socle : boucle, outils, mémoire, et ce qui distingue un agent d'un simple appel LLM |
+| 002 | [Multi-agents : quand un agent ne suffit plus](articles/002-multi-agents.md) | Le pattern produire → critiquer, et pourquoi deux agents valent mieux qu'un |
 
 ## À propos
 
