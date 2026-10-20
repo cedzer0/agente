@@ -1,10 +1,10 @@
-# Agenté
+# Agents, à poil
 
 Je fabrique des agents IA, je les regarde se casser la figure, et je note ce que j'apprends.
 
 ## Ce que c'est
 
-Agenté est un blog où je consolide ce que je découvre en jouant avec les agents IA : les features d'Hermes, les outils, les montages multi-agents. Chaque article part d'une question simple (« qu'est-ce qu'un agent ? ») et finit avec du code qui tourne, pas avec une opinion. Tout ce qui est publié a été relu et validé avant de sortir.
+« Agents, à poil » est un blog où je consolide ce que je découvre en jouant avec les agents IA : les features d'Hermes, les outils, les montages multi-agents. Chaque article part d'une question simple (« qu'est-ce qu'un agent ? ») et finit avec du code qui tourne, pas avec une opinion. Tout ce qui est publié a été relu et validé avant de sortir.
 
 ## Comment c'est construit
 

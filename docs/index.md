@@ -1,4 +1,4 @@
-# Agenté
+# Agents, à poil
 
 Ce que je comprends **vraiment** des agents IA — pas de la paraphrase de doc, mais des
 use cases que j'ai montés, du code qui tourne, des architectures que j'ai branchées, et

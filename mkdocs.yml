@@ -1,4 +1,4 @@
-site_name: Agenté
+site_name: Agents, à poil
 site_description: Ce que je comprends vraiment des agents IA — use cases, architecture, code, résultats.
 site_url: https://cedzer0.github.io/agente/
 repo_url: https://github.com/cedzer0/agente
@@ -51,4 +51,4 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/cedzer0
 
-copyright: "Agenté — notes publiques sur les agents IA"
+copyright: "Agents, à poil — notes publiques sur les agents IA"
